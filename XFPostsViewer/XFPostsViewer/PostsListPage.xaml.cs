@@ -23,7 +23,7 @@ namespace XFPostsViewer
             PostsListView.ItemsSource = PostsList;
 
             LoadPosts();
-
+            PostsListView.ItemSelected += PostsListView_ItemSelected;
         }
 
         private void LoadPosts()
@@ -36,5 +36,18 @@ namespace XFPostsViewer
                 PostsList.Add(post);
             }
         }
+       
+        private void PostsListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
+        {
+            if (e.SelectedItem != null)
+            {
+                CommentsListPage commentsPage = new CommentsListPage(e.SelectedItem as Post);
+                Navigation.PushAsync(commentsPage);
+            }
+
+            // Clear selection
+            PostsListView.SelectedItem = null;
+        }
+
     }
 }
