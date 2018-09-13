@@ -1,5 +1,4 @@
-﻿using System;
-using Xamarin.Forms;
+﻿using Xamarin.Forms;
 using System.Collections.ObjectModel;
 using XFPostsViewer.Data;
 using XFPostsViewer.Service;
