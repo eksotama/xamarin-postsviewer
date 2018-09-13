@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:XFPostsViewer"
+             x:Class="XFPostsViewer.PostsListPage">
+
+    <ListView x:Name="PostsListView" RowHeight="90" >
+        <ListView.ItemTemplate>
+            <DataTemplate>
+                <ViewCell>
+                    <ViewCell.View>
+                        <Grid Margin="10">
+                            <Label Grid.Column="0" Grid.Row="0" Text="{Binding Title}" FontAttributes="Bold" FontSize="Large" />
+                            <Label Grid.Column="0" Grid.Row="1" Text="{Binding Body}"  />
+                        </Grid>
+                    </ViewCell.View>
+                </ViewCell>
+            </DataTemplate>
+        </ListView.ItemTemplate>
+    </ListView>
+
+</ContentPage>
