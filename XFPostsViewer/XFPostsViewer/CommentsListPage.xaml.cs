@@ -15,6 +15,7 @@ namespace XFPostsViewer
 
         DataRetriever _dataRetriever;
         Post _postContext;
+        Comment _comment;
 
         public CommentsListPage()
         {
@@ -22,7 +23,6 @@ namespace XFPostsViewer
 
             CommentsLoaderIndicator.IsRunning = true;
             CommentsLoaderIndicator.IsVisible = true;
-
         }
 
         public CommentsListPage(Post post) : this()
@@ -61,14 +61,27 @@ namespace XFPostsViewer
             }
         }
 
+        private async void SendEmailDialog()
+        {
+            var answer = await DisplayAlert("Send Email", "Do you want to send an email to this commenter?", "Send", "No");
+            if (answer)
+            {
+                SendEmail();
+            }
+        }
+
+        private void SendEmail()
+        {
+            string mailto = "mailto:" + _comment.Email;
+            Device.OpenUri(new Uri(mailto));
+        }
+
         private void CommentsListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
             {
-                Comment comment = e.SelectedItem as Comment;
-                string mailto = "mailto:" + comment.Email;
-
-                Device.OpenUri(new Uri(mailto));
+                _comment = e.SelectedItem as Comment;
+                SendEmailDialog();
             }
 
             CommentsListView.SelectedItem = null;
@@ -76,7 +89,7 @@ namespace XFPostsViewer
 
         private void UserIcon_Activated(object sender, EventArgs e)
         {
-
+            Navigation.PushAsync(new AuthorProfilePage(_postContext.UserId));
         }
     }
 }
