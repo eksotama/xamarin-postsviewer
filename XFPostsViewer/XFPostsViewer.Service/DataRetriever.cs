@@ -77,5 +77,12 @@ namespace XFPostsViewer.Service
 
             return user;
         }
+
+        public async Task<User> GetUserByPostAsync(int? userId)
+        {
+            var asyncTask = Task.Run(() => GetUserByPost(userId));
+            User result = await asyncTask;
+            return result;
+        }
     }
 }

@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="XFPostsViewer.AuthorProfilePage">
+
+    <ContentPage.Content>
+        <StackLayout Spacing="10">
+
+            <Label FontAttributes="Bold" Grid.Column="1" Text="{Binding Name}" Margin="5" FontSize="30" />
+
+            <StackLayout Orientation="Horizontal">
+                <Label FontAttributes="Bold" Grid.Column="0" Text="Username: " Margin="4" FontSize="20" />
+                <Label Grid.Column="1" Text="{Binding Username}" Margin="4" FontSize="20" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label FontAttributes="Bold" Grid.Column="0" Text="Email: " Margin="4" FontSize="20"  />
+                <Label Grid.Column="1" Text="{Binding Email}" Margin="4" FontSize="20"  />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label FontAttributes="Bold" Grid.Column="0" Text="Phone: " Margin="4" FontSize="20" />
+                <Label Grid.Column="1" Text="{Binding Phone}" Margin="4" FontSize="20" />
+            </StackLayout>
+
+            <StackLayout Orientation="Horizontal">
+                <Label FontAttributes="Bold" Grid.Column="0" Text="Website: " Margin="4" FontSize="20" />
+                <Label Grid.Column="1" Text="{Binding Website}" Margin="4" FontSize="20"  />
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
