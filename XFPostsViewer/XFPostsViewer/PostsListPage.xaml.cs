@@ -18,34 +18,47 @@ namespace XFPostsViewer
 
             Title = "Posts";
 
+            PostsLoaderIndicator.IsRunning = true;
+            PostsLoaderIndicator.IsVisible = true;
+
             PostsList = new ObservableCollection<Post>();
             _dataRetriever = new DataRetriever();
             PostsListView.ItemsSource = PostsList;
 
-            LoadPosts();
+            if (PostsList.Count <= 0)
+            {
+                LoadPosts();
+            }
+
             PostsListView.ItemSelected += PostsListView_ItemSelected;
         }
 
-        private void LoadPosts()
+        private async void LoadPosts()
         {
             PostsList.Clear();
 
-            List<Post> posts = _dataRetriever.GetPosts();
+            List<Post> posts = await _dataRetriever.GetPostsAsync();
+
             foreach (Post post in posts)
             {
                 PostsList.Add(post);
+
+                if (PostsList.Count > 10)
+                {
+                    PostsLoaderIndicator.IsVisible = false;
+                    PostsLoaderIndicator.IsRunning = false;
+                }
             }
         }
-       
+
         private void PostsListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)
         {
             if (e.SelectedItem != null)
             {
                 CommentsListPage commentsPage = new CommentsListPage(e.SelectedItem as Post);
-                Navigation.PushAsync(commentsPage);
+                Navigation.PushAsync(commentsPage); // maybe use 'async await'
             }
 
-            // Clear selection
             PostsListView.SelectedItem = null;
         }
 

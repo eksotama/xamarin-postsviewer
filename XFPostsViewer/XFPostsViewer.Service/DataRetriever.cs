@@ -3,6 +3,7 @@ using System.Net;
 using XFPostsViewer.Data;
 using Newtonsoft.Json;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace XFPostsViewer.Service
 {
@@ -29,14 +30,21 @@ namespace XFPostsViewer.Service
             return posts;
         }
 
-        public List<Comment> GetCommentsByPost(int postId)
+        public async Task<List<Post>> GetPostsAsync()
+        {
+            var asyncTask = Task.Run(() => GetPosts());
+            List<Post> result = await asyncTask;
+            return result;
+        }
+
+        public List<Comment> GetCommentsByPost(int? postId)
         {
             List<Comment> comments = new List<Comment>();
 
             using (WebClient webClient = new WebClient())
             {
 
-                string commentsJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/posts/" + postId);
+                string commentsJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/posts/" + postId + "/comments");
 
                 if (!string.IsNullOrEmpty(commentsJson))
                 {
@@ -46,13 +54,20 @@ namespace XFPostsViewer.Service
             return comments;
         }
 
-        public User GetUserByPost(int userId)
+        public async Task<List<Comment>> GetCommentsByPostAsync(int? postId)
+        {
+            var asyncTask = Task.Run(() => GetCommentsByPost(postId));
+            List<Comment> result = await asyncTask;
+            return result;
+        }
+
+        public User GetUserByPost(int? userId)
         {
             User user = new User();
 
             using (WebClient webClient = new WebClient())
             {
-                string userJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/posts/" + userId + "/comments");
+                string userJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/users/" + userId);
 
                 if (!string.IsNullOrEmpty(userJson))
                 {
