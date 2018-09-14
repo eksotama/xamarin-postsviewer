@@ -3,6 +3,10 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="XFPostsViewer.CommentsListPage">
 
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Name="UserIcon" Icon="icon_user.png" Priority="0" Order="Primary" Activated="UserIcon_Activated" />
+    </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <StackLayout>
             <ListView x:Name="CommentsListView" RowHeight="60">
@@ -24,4 +28,5 @@
                                AbsoluteLayout.LayoutBounds="0,0,-1,-1" x:Name="CommentsLoaderIndicator"  VerticalOptions="Center" HorizontalOptions="Center"/>
         </StackLayout>
     </ContentPage.Content>
+
 </ContentPage>

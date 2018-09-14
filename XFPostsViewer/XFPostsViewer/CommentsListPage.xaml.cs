@@ -73,5 +73,10 @@ namespace XFPostsViewer
 
             CommentsListView.SelectedItem = null;
         }
+
+        private void UserIcon_Activated(object sender, EventArgs e)
+        {
+
+        }
     }
 }
