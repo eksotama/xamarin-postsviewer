@@ -65,7 +65,10 @@ namespace XFPostsViewer
         {
             if (e.SelectedItem != null)
             {
+                Comment comment = e.SelectedItem as Comment;
+                string mailto = "mailto:" + comment.Email;
 
+                Device.OpenUri(new Uri(mailto));
             }
 
             CommentsListView.SelectedItem = null;
