@@ -18,6 +18,9 @@ namespace XFPostsViewer
 
             Title = "Posts";
 
+            //Connectivity. 
+            // using Xamarin.Essentials;
+
             PostsLoaderIndicator.IsRunning = true;
             PostsLoaderIndicator.IsVisible = true;
 
@@ -25,12 +28,14 @@ namespace XFPostsViewer
             _dataRetriever = new DataRetriever();
             PostsListView.ItemsSource = PostsList;
 
-            if (PostsList.Count <= 0)
-            {
-                LoadPosts();
-            }
+            LoadPosts();
 
             PostsListView.ItemSelected += PostsListView_ItemSelected;
+            PostsListView.RefreshCommand = new Command(() =>
+            {
+                LoadPosts();
+                PostsListView.IsRefreshing = false;
+            });
         }
 
         private async void LoadPosts()
@@ -56,11 +61,10 @@ namespace XFPostsViewer
             if (e.SelectedItem != null)
             {
                 CommentsListPage commentsPage = new CommentsListPage(e.SelectedItem as Post);
-                Navigation.PushAsync(commentsPage); // maybe use 'async await'
+                Navigation.PushAsync(commentsPage);
             }
 
             PostsListView.SelectedItem = null;
         }
-
     }
 }

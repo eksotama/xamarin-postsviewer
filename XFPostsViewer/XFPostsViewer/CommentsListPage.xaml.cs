@@ -36,12 +36,14 @@ namespace XFPostsViewer
             _dataRetriever = new DataRetriever();
             CommentsListView.ItemsSource = CommentsList;
 
-            if (CommentsList.Count <= 0)
-            {
-                LoadComments();
-            }
+            LoadComments();
 
             CommentsListView.ItemSelected += CommentsListView_ItemSelected;
+            CommentsListView.RefreshCommand = new Command(() =>
+            {
+                LoadComments();
+                CommentsListView.IsRefreshing = false;
+            });
         }
 
         private async void LoadComments()
