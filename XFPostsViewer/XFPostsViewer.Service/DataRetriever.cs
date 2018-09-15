@@ -20,11 +20,18 @@ namespace XFPostsViewer.Service
 
             using (WebClient webClient = new WebClient())
             {
-                string postsJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/posts");
-
-                if (!string.IsNullOrEmpty(postsJson))
+                try
                 {
-                    posts = JsonConvert.DeserializeObject<Post[]>(postsJson).ToList();
+                    string postsJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/posts");
+
+                    if (!string.IsNullOrEmpty(postsJson))
+                    {
+                        posts = JsonConvert.DeserializeObject<Post[]>(postsJson).ToList();
+                    }
+                }
+                catch (WebException)
+                {
+                    throw;
                 }
             }
             return posts;

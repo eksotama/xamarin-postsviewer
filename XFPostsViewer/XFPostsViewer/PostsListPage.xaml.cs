@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using XFPostsViewer.Data;
 using XFPostsViewer.Service;
 using System.Collections.Generic;
+using System.Net;
 
 namespace XFPostsViewer
 {
@@ -42,17 +43,25 @@ namespace XFPostsViewer
         {
             PostsList.Clear();
 
-            List<Post> posts = await _dataRetriever.GetPostsAsync();
-
-            foreach (Post post in posts)
+            try
             {
-                PostsList.Add(post);
-
-                if (PostsList.Count > 10)
+                List<Post> posts = await _dataRetriever.GetPostsAsync();
+                foreach (Post post in posts)
                 {
-                    PostsLoaderIndicator.IsVisible = false;
-                    PostsLoaderIndicator.IsRunning = false;
+                    PostsList.Add(post);
+
+                    if (PostsList.Count > 10)
+                    {
+                        PostsLoaderIndicator.IsVisible = false;
+                        PostsLoaderIndicator.IsRunning = false;
+                    }
                 }
+            }
+            catch (WebException)
+            {
+                PostsLoaderIndicator.IsVisible = false;
+                PostsLoaderIndicator.IsRunning = false;
+                await DisplayAlert("Not Connected", "You are not connected to the Internet. Please Connect and Pull down the page to Refresh", "OK");
             }
         }
 
