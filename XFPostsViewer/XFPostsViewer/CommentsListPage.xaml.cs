@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Net;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using XFPostsViewer.Data;
@@ -21,8 +22,7 @@ namespace XFPostsViewer
         {
             InitializeComponent();
 
-            CommentsLoaderIndicator.IsRunning = true;
-            CommentsLoaderIndicator.IsVisible = true;
+            StartActivityIndicator();
         }
 
         public CommentsListPage(Post post) : this()
@@ -48,19 +48,37 @@ namespace XFPostsViewer
 
         private async void LoadComments()
         {
-            CommentsList.Clear();
-
-            List<Comment> comments = await _dataRetriever.GetCommentsByPostAsync(_postContext.PostId);
-            foreach (Comment comment in comments)
+            try
             {
-                CommentsList.Add(comment);
-
-                if (CommentsList.Count > 0)
+                List<Comment> comments = await _dataRetriever.GetCommentsByPostAsync(_postContext.PostId);
+                CommentsList.Clear();
+                foreach (Comment comment in comments)
                 {
-                    CommentsLoaderIndicator.IsVisible = false;
-                    CommentsLoaderIndicator.IsRunning = false;
+                    CommentsList.Add(comment);
+
+                    if (CommentsList.Count > 0)
+                    {
+                        StopActivityIndicator();
+                    }
                 }
             }
+            catch (WebException)
+            {
+                StopActivityIndicator();
+                await DisplayAlert("Not Connected", "You are not connected to the Internet. Please Connect and Pull down the page to Refresh", "OK");
+            }
+        }
+
+        private void StartActivityIndicator()
+        {
+            CommentsLoaderIndicator.IsRunning = true;
+            CommentsLoaderIndicator.IsVisible = true;
+        }
+
+        private void StopActivityIndicator()
+        {
+            CommentsLoaderIndicator.IsVisible = false;
+            CommentsLoaderIndicator.IsRunning = false;
         }
 
         private async void SendEmailDialog()

@@ -19,11 +19,7 @@ namespace XFPostsViewer
 
             Title = "Posts";
 
-            //Connectivity. 
-            // using Xamarin.Essentials;
-
-            PostsLoaderIndicator.IsRunning = true;
-            PostsLoaderIndicator.IsVisible = true;
+            StartActivityIndicator();
 
             PostsList = new ObservableCollection<Post>();
             _dataRetriever = new DataRetriever();
@@ -41,28 +37,37 @@ namespace XFPostsViewer
 
         private async void LoadPosts()
         {
-            PostsList.Clear();
-
             try
             {
                 List<Post> posts = await _dataRetriever.GetPostsAsync();
+                PostsList.Clear();
                 foreach (Post post in posts)
                 {
                     PostsList.Add(post);
 
                     if (PostsList.Count > 10)
                     {
-                        PostsLoaderIndicator.IsVisible = false;
-                        PostsLoaderIndicator.IsRunning = false;
+                        StopActivityIndicator();
                     }
                 }
             }
             catch (WebException)
             {
-                PostsLoaderIndicator.IsVisible = false;
-                PostsLoaderIndicator.IsRunning = false;
+                StopActivityIndicator();
                 await DisplayAlert("Not Connected", "You are not connected to the Internet. Please Connect and Pull down the page to Refresh", "OK");
             }
+        }
+
+        private void StartActivityIndicator()
+        {
+            PostsLoaderIndicator.IsRunning = true;
+            PostsLoaderIndicator.IsVisible = true;
+        }
+
+        private void StopActivityIndicator()
+        {
+            PostsLoaderIndicator.IsVisible = false;
+            PostsLoaderIndicator.IsRunning = false;
         }
 
         private void PostsListView_ItemSelected(object sender, SelectedItemChangedEventArgs e)

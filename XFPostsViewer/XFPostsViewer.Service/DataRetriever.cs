@@ -50,12 +50,18 @@ namespace XFPostsViewer.Service
 
             using (WebClient webClient = new WebClient())
             {
-
-                string commentsJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/posts/" + postId + "/comments");
-
-                if (!string.IsNullOrEmpty(commentsJson))
+                try
                 {
-                    comments = JsonConvert.DeserializeObject<Comment[]>(commentsJson).ToList();
+                    string commentsJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/posts/" + postId + "/comments");
+
+                    if (!string.IsNullOrEmpty(commentsJson))
+                    {
+                        comments = JsonConvert.DeserializeObject<Comment[]>(commentsJson).ToList();
+                    }
+                }
+                catch (WebException)
+                {
+                    throw;
                 }
             }
             return comments;
@@ -74,11 +80,18 @@ namespace XFPostsViewer.Service
 
             using (WebClient webClient = new WebClient())
             {
-                string userJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/users/" + userId);
-
-                if (!string.IsNullOrEmpty(userJson))
+                try
                 {
-                    user = JsonConvert.DeserializeObject<User>(userJson);
+                    string userJson = webClient.DownloadString("https://jsonplaceholder.typicode.com/users/" + userId);
+
+                    if (!string.IsNullOrEmpty(userJson))
+                    {
+                        user = JsonConvert.DeserializeObject<User>(userJson);
+                    }
+                }
+                catch (WebException)
+                {
+                    throw;
                 }
             }
 
