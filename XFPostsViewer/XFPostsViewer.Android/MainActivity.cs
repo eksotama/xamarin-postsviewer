@@ -9,7 +9,7 @@ using Android.OS;
 
 namespace XFPostsViewer.Droid
 {
-    [Activity(Label = "Posts Viewer", Icon = "@drawable/icon_mag", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
+    [Activity(Label = "Posts Viewer", Icon = "@drawable/icon_read", Theme = "@style/MainTheme", MainLauncher = true, ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
         protected override void OnCreate(Bundle savedInstanceState)

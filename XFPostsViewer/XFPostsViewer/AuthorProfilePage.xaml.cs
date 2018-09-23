@@ -2,6 +2,7 @@
 using Xamarin.Forms.Xaml;
 using XFPostsViewer.Data;
 using XFPostsViewer.Service;
+using System.Net;
 
 namespace XFPostsViewer
 {
@@ -24,8 +25,16 @@ namespace XFPostsViewer
 
         private async void LoadUser(int? authorId)
         {
-            User user = await _dataRetriever.GetUserByPostAsync(authorId);
-            BindingContext = user;
+            try
+            {
+                User user = await _dataRetriever.GetUserByPostAsync(authorId);
+                BindingContext = user;
+
+            }
+            catch (WebException)
+            {
+                await DisplayAlert("Not Connected", "You are not connected to the Internet. Please Connect, Go back and Try Again!", "OK");
+            }
         }
     }
 }
